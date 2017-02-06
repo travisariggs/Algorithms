@@ -48,6 +48,7 @@ def mergeSort(aList):
         #  the element from the first array
         elif j == secondLen:
             sortedList.append(first[i])
+            i += 1
 
         # The normal case (before we've reached the end of either array)
         elif first[i] < second[j]:
