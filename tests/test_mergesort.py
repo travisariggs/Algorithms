@@ -7,6 +7,7 @@
 """
 
 import unittest
+import random
 
 from mergesort import mergesort as ms
 
@@ -25,6 +26,10 @@ class TestMergeSort(unittest.TestCase):
         b = [1, 2, 3, 4, 9]
         self.assertEqual(ms.mergeSort(a), b)
 
+
+    def test_long_random_array(self):
+        a = [random.randint(-100000, 100000) for i in range(100000)]
+        self.assertEqual(ms.mergeSort(a), sorted(a))
 
 
 
