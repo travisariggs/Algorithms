@@ -29,6 +29,8 @@ def mergeSort(aList):
 
     # Perform Merge of two sorted lists
     i, j = 0, 0
+    firstLen = len(first)
+    secondLen = len(second)
 
     sortedList = []
 
@@ -38,13 +40,13 @@ def mergeSort(aList):
         # Make sure we won't try to access past the end of a list
         #  If we've reached the end of the first array, then
         #  add the element from the second array.
-        if i == len(first):
+        if i == firstLen:
             sortedList.append(second[j])
             j += 1
 
         # If we've reached the end of the second array, add
         #  the element from the first array
-        elif j == len(second):
+        elif j == secondLen:
             sortedList.append(first[i])
 
         # The normal case (before we've reached the end of either array)
