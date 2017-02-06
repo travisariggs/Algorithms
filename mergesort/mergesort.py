@@ -29,6 +29,7 @@ def mergeSort(aList):
     #pdb.set_trace()
 
     # Perform Merge of two sorted lists
+    #  Initialize counters, lengths and the newly sorted array
     i, j = 0, 0
     firstLen = len(first)
     secondLen = len(second)
