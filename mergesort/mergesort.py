@@ -8,6 +8,7 @@
 """
 import pdb
 
+
 def mergeSort(aList):
     """Sort a list of integers from least to greatest
 
@@ -15,7 +16,7 @@ def mergeSort(aList):
     """
 
     n = len(aList)
-    
+
     # Check for base case
     if n == 1:
         return aList
@@ -54,9 +55,11 @@ def mergeSort(aList):
         elif first[i] < second[j]:
             sortedList.append(first[i])
             i += 1
+
         else:
             sortedList.append(second[j])
             j += 1
+
 
     return sortedList
 
