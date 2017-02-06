@@ -71,8 +71,6 @@ if __name__ == "__main__":
     a = [4, 2, 234, 9, 1, 10, 2300, 3]
     result = mergeSort(a)
 
-
-
     print("Input:  " + str(a))
     print("Sorted: " + str(result))
 
