@@ -65,16 +65,6 @@ def merge_sort(aList):
     return sortedList
 
 
-def count_inversions(aList):
-    """   Count the number of inversions in a list
-
-    Returns a count of the number of inversions in a list
-
-    On an error, returns None
-    """
-    pass
-
-
 
 if __name__ == "__main__":
 
