@@ -9,7 +9,7 @@
 import unittest
 import random
 
-from mergesort import mergesort as ms
+import mergesort as ms
 
 
 class TestMergeSort(unittest.TestCase):
