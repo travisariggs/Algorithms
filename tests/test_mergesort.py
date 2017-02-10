@@ -20,12 +20,10 @@ class TestMergeSort(unittest.TestCase):
         b = [1, 2, 3, 4, 9, 10, 234, 2300]
         self.assertEqual(s.merge_sort(a), b)
 
-
     def test_odd_length_array(self):
         a = [3, 9, 2, 4, 1]
         b = [1, 2, 3, 4, 9]
         self.assertEqual(s.merge_sort(a), b)
-
 
     def test_long_random_array(self):
         a = [random.randint(-100000, 100000) for i in range(100000)]

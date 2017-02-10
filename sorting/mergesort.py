@@ -10,10 +10,7 @@
 
 
 def merge_sort(aList):
-    """Sort a list of integers from least to greatest
-
-    Returns None on a failure
-    """
+    """Sort a list of integers from least to greatest"""
 
     n = len(aList)
 
