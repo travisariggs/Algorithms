@@ -6,25 +6,22 @@
   Sort an input list from least to greatest.
 
 """
-import pdb
+#import pdb
 
 
-def mergeSort(aList):
-    """Sort a list of integers from least to greatest
-
-    Returns None on a failure
-    """
+def merge_sort(aList):
+    """Sort a list of integers from least to greatest"""
 
     n = len(aList)
 
     # Check for base case
-    if n == 1:
+    if n <= 1:
         return aList
 
     # Split the list into two halves and call recursively
-    first = mergeSort(aList[0:n/2])
+    first = merge_sort(aList[0:n/2])
 
-    second = mergeSort(aList[n/2:n])
+    second = merge_sort(aList[n/2:n])
 
     #pdb.set_trace()
 
@@ -69,7 +66,7 @@ def mergeSort(aList):
 if __name__ == "__main__":
 
     a = [4, 2, 234, 9, 1, 10, 2300, 3]
-    result = mergeSort(a)
+    result = merge_sort(a)
 
     print("Input:  " + str(a))
     print("Sorted: " + str(result))
