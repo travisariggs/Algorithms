@@ -6,7 +6,7 @@
   Sort an input list from least to greatest.
 
 """
-import pdb
+#import pdb
 
 
 def merge_sort(aList):
