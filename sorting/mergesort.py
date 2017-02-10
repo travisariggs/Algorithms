@@ -18,7 +18,7 @@ def merge_sort(aList):
     n = len(aList)
 
     # Check for base case
-    if n == 1:
+    if n <= 1:
         return aList
 
     # Split the list into two halves and call recursively
