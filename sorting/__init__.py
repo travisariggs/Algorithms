@@ -1,1 +1,1 @@
-from mergesort import mergeSort
+from mergesort import merge_sort
