@@ -40,10 +40,10 @@ def sort_and_count_inversions(aList):
         return 0, aList
 
     # Recursively call for first half of list
-    firstCount, firstList = sort_and_count_inversions(aList[0:n/2])
+    firstCount, firstList = sort_and_count_inversions(aList[0:int(n/2)])
 
     # Recursively call for second half of list
-    secondCount, secondList = sort_and_count_inversions(aList[n/2:])
+    secondCount, secondList = sort_and_count_inversions(aList[int(n/2):])
 
     # Merge the two lists together while looking for split inversions
     firstLength = len(firstList)
