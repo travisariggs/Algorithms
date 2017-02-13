@@ -1,4 +1,3 @@
-#!/usr/bin/python
 """
     Merge Sort
      by Travis Riggs
@@ -19,9 +18,9 @@ def merge_sort(aList):
         return aList
 
     # Split the list into two halves and call recursively
-    first = merge_sort(aList[0:n/2])
+    first = merge_sort(aList[0:int(n/2)])
 
-    second = merge_sort(aList[n/2:n])
+    second = merge_sort(aList[int(n/2):n])
 
     #pdb.set_trace()
 
