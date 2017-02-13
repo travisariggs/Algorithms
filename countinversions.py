@@ -1,4 +1,3 @@
-#!/usr/bin/python
 """
 
         Count the number of split inversions

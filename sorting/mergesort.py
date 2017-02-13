@@ -1,4 +1,3 @@
-#!/usr/bin/python
 """
     Merge Sort
      by Travis Riggs
