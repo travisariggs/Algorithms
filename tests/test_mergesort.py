@@ -24,6 +24,7 @@ class TestMergeSort(unittest.TestCase):
         b = [1, 2, 3, 4, 9]
         self.assertEqual(s.merge_sort(a), b)
 
+    @unittest.skip("Skipping randomized test for time savings")
     def test_long_random_array(self):
         a = [random.randint(-100000, 100000) for i in range(100000)]
         self.assertEqual(s.merge_sort(a), sorted(a))
