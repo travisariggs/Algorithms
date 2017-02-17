@@ -68,3 +68,16 @@ if __name__ == '__main__':
         print("The sorting didn't work...")
 
     print("Comparison count: " + str(comparisons))
+
+
+    # Sort the array with quicksort, using the median of the first,
+    #  middle and last element as the pivot
+    sortedList, comparisons = s.quick_sort_random(copy.copy(original),
+                                                  comparisons=True)
+
+    if sortedList == anotherWay:
+        print("It's sorted!")
+    else:
+        print("The sorting didn't work...")
+
+    print("Comparison count: " + str(comparisons))
