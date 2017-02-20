@@ -7,6 +7,7 @@
 
 """
 
+import copy
 import random
 
 
@@ -407,6 +408,116 @@ def quick_sort_random(aList, startIndex=0, endIndex=None,
         return aList
 
 
+def quick_sort_ideal(aList, startIndex=0, endIndex=None,
+                     comparisons=False):
+    """Sort a list from least to greatest using an idealized quicksort
+
+    This is not intended for actual use.  It is only used to find the
+    best possible sort for analysis of other variations of quick sort.
+
+    Returns a sorted list
+
+    If 'comparisons' is set to True, it returns the sorted list and the
+    number of comparisons
+
+    It chooses the perfect pivot element each time: the median.
+
+
+    """
+
+    if endIndex is None:
+        endIndex = len(aList)
+
+    # Base Case
+    if endIndex - startIndex <= 1:
+
+        if comparisons:
+            return aList, 0
+        else:
+            return aList
+
+    ## DEBUG
+    #import ipdb; ipdb.set_trace()
+    #print(aList[startIndex:endIndex])
+
+    temp = copy.copy(aList[startIndex:endIndex])
+    temp.sort()
+
+    if len(temp) % 2 == 0:
+        median = temp[int(len(temp)/2)-1]
+    else:
+        median = temp[int(len(temp)/2)]
+
+    # Find the median value's index
+    pivotInd = aList.index(median)
+
+    pivot = aList[pivotInd]
+
+    # Switch the pivot element with the first
+    aList[pivotInd] = aList[startIndex]
+    aList[startIndex] = pivot
+
+    ## DEBUG
+    #print(aList, aList[startIndex:endIndex], pivot)
+
+    # Partition the list between elements greater than and less than
+    #  the pivot element
+
+    p = startIndex + 1  # Partition index
+    i = startIndex + 1  # Element index
+
+    for elem in aList[startIndex+1:endIndex]:
+
+        # Is this element less than our pivot?
+        if elem < pivot:
+
+            # Swap this element with the lowest item in the upper
+            #  partition. But only do that if we've created an upper
+            #  partition.
+            if i != p:
+                aList[i] = aList[p]
+                aList[p] = elem
+
+            # Move the partition index up to make room for the new
+            #  value.
+            p += 1
+
+        # Track the index of the next list element
+        i += 1
+
+    # Move the pivot element between the partitions
+    aList[startIndex] = aList[p-1]
+    aList[p-1] = pivot
+
+    ## DEBUG
+    #import ipdb; ipdb.set_trace()
+
+    if comparisons:
+        compares = len(aList[startIndex:endIndex]) - 1
+
+        # Rescursively call quick_sort on the upper and lower partitions
+        aList, lowerCompares = quick_sort_ideal(aList,
+                                                startIndex,
+                                                p-1,
+                                                True)
+        aList, upperCompares = quick_sort_ideal(aList,
+                                                p,
+                                                endIndex,
+                                                True)
+
+        totalCompares = compares + lowerCompares + upperCompares
+
+        return aList, totalCompares
+
+    else:
+
+        # Rescursively call quick_sort on the upper and lower partitions
+        aList = quick_sort_ideal(aList, startIndex, p-1)
+        aList = quick_sort_ideal(aList, p, endIndex)
+
+        # Return the sorted list
+        return aList
+
 
 if __name__ == '__main__':
 
@@ -435,5 +546,12 @@ if __name__ == '__main__':
     b = [1, 2, 3, 4, 9, 10, 234, 2300]
 
     result, comparisons = quick_sort_random(a, comparisons=True)
+
+    print(result, comparisons)
+
+    a = [4, 2, 234, 9, 1, 10, 2300, 3]
+    b = [1, 2, 3, 4, 9, 10, 234, 2300]
+
+    result, comparisons = quick_sort_ideal(a, comparisons=True)
 
     print(result, comparisons)

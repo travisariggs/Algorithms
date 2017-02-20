@@ -37,24 +37,20 @@ if __name__ == '__main__':
 
     anotherWay = sorted(copy.copy(original))
 
-    if sortedList == anotherWay:
-        print("It's sorted!")
-    else:
-        print("The sorting didn't work...")
+    print("First element pivot comparison count: " + str(comparisons))
 
-    print("Comparison count: " + str(comparisons))
+    if sortedList != anotherWay:
+        print("The sorting didn't work...")
 
 
     # Sort the array with quicksort, using the last element as pivot
     sortedList, comparisons = s.quick_sort_simple_last(copy.copy(original),
                                                        comparisons=True)
 
-    if sortedList == anotherWay:
-        print("It's sorted!")
-    else:
-        print("The sorting didn't work...")
+    print("Last element pivot comparison count:  " + str(comparisons))
 
-    print("Comparison count: " + str(comparisons))
+    if sortedList != anotherWay:
+        print("The sorting didn't work...")
 
 
     # Sort the array with quicksort, using the median of the first,
@@ -62,22 +58,30 @@ if __name__ == '__main__':
     sortedList, comparisons = s.quick_sort_median(copy.copy(original),
                                                   comparisons=True)
 
-    if sortedList == anotherWay:
-        print("It's sorted!")
-    else:
+    print("Median of 3 comparison count:         " + str(comparisons))
+
+    if sortedList != anotherWay:
         print("The sorting didn't work...")
 
-    print("Comparison count: " + str(comparisons))
 
-
-    # Sort the array with quicksort, using the median of the first,
-    #  middle and last element as the pivot
+    # Sort the array with quicksort, using a randomized pivot element
     sortedList, comparisons = s.quick_sort_random(copy.copy(original),
                                                   comparisons=True)
 
-    if sortedList == anotherWay:
-        print("It's sorted!")
-    else:
+    print("Randomized pivot comparison count:    " + str(comparisons))
+
+    if sortedList != anotherWay:
         print("The sorting didn't work...")
 
-    print("Comparison count: " + str(comparisons))
+
+    # Sort the array with an idealized quicksort to see the minimum
+    #  comparisons possible
+    sortedList, comparisons = s.quick_sort_ideal(copy.copy(original),
+                                                 comparisons=True)
+
+    print("Ideal comparison count:               " + str(comparisons))
+
+    if sortedList != anotherWay:
+        print("The sorting didn't work...")
+
+
