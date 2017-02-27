@@ -12,7 +12,7 @@ import comparisons
 if __name__ == "__main__":
 
     # Load all of the numbers from the text file into a list
-    with open("/Users/travis/Desktop/IntegerArray.txt", "r") as f:
+    with open("data/IntegerArray.txt", "r") as f:
 
         numbers = []
 

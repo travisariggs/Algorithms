@@ -16,7 +16,7 @@ import sorting as s
 if __name__ == '__main__':
 
     # Read a large unsorted array from a file
-    with open('/Users/travis/Desktop/quicksort.txt', 'r') as f:
+    with open('data/quicksort.txt', 'r') as f:
 
         unsorted = []
 
