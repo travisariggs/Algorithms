@@ -15,7 +15,8 @@ if __name__ == '__main__':
 
     digraph = DirectedGraph()
 
-    with open("data/SCC.txt", "r") as f:
+    # with open("data/SCC.txt", "r") as f:
+    with open("data/smalldigraph.txt", "r") as f:
 
         for line in f.readlines():
 
@@ -23,5 +24,5 @@ if __name__ == '__main__':
 
             digraph.add_di_edge(head, tail)
 
-    digraph.save_graph("data/bigDiGraph.dot")
+    digraph.save_graph("data/smalldigraph.dot")
 
