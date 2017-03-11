@@ -114,6 +114,107 @@ class Graph(dict):
 
 
 
+class DiNode(object):
+
+    def __init__(self, name, edges=None):
+
+        self.name = name
+        self.in_edges = []
+        self.out_edges = []
+        self.explored = False
+        self.leader_node = None
+        self.finishing_time = None
+
+
+    def add_edge(self, node_name, kind):
+
+
+        if kind == "out":
+            self.out_edges.append(DiEdge(self.name, node_name, kind))
+
+        elif kind == "in":
+            self.in_edges.append(DiEdge(self.name, node_name, kind))
+
+        else:
+            raise ValueError("Unknown Edge kind: " + str(kind))
+
+
+
+class DiEdge(object):
+
+    def __init__(self, current_node, neighbor_node, kind):
+
+        self.name = neighbor_node
+
+        if kind == "out":
+            self.tail = current_node
+            self.head = neighbor_node
+
+        elif kind == "in":
+            self.head = current_node
+            self.tail = neighbor_node
+
+        else:
+            raise ValueError("Unknown DiEdge kind: " + str(kind))
+
+
+
+class DirectedGraph(object):
+    """Class for Directed Graphs"""
+
+
+    def __init__(self):
+
+        self.nodes = {}
+        self.strong_connected_components = {}
+        self.reversed = False
+
+
+    def add_node(self, label):
+
+        self.nodes[label] = DiNode(label)
+
+
+    def add_di_edge(self, tail, head):
+
+        # ipdb.set_trace()
+        if tail not in self.nodes:
+            self.add_node(tail)
+
+        if head not in self.nodes:
+            self.add_node(head)
+
+        self.nodes[tail].add_edge(head, "out")
+
+        self.nodes[head].add_edge(tail, "in")
+
+
+    def save_graph(self, filename):
+        """Save the graph in a DOT file"""
+
+        with open(filename, 'w') as f:
+
+            print("digraph graphname {", file=f)
+
+            for node_name, node in self.nodes.items():
+
+                for edge in node.out_edges:
+
+                    print(str(node.name) + " -> " + str(edge.name) + ";",
+                          file=f)
+
+            print("}", file=f)
+
+        # Render the graph into an image
+        graphviz.render('dot', 'png', filename)
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
 
     a = Graph()
@@ -122,7 +223,19 @@ if __name__ == '__main__':
     a.add_node("Hello")
     a.add_node(1, [2,3,4])
 
-
-
     print(a)
+
+
+    b = DirectedGraph()
+
+    b.add_node(1)
+    b.add_node(2)
+    # ipdb.set_trace()
+    b.add_di_edge(1, 2)
+    b.add_di_edge(2, 1)
+    b.add_di_edge(1, 3)
+
+    b.save_graph("digraphtest")
+
+    print(b)
 
