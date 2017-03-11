@@ -12,5 +12,16 @@ from graphs import DirectedGraph
 
 if __name__ == '__main__':
 
-    pass
-    
+
+    digraph = DirectedGraph()
+
+    with open("data/SCC.txt", "r") as f:
+
+        for line in f.readlines():
+
+            head, tail = line.strip().split(" ")
+
+            digraph.add_di_edge(head, tail)
+
+    digraph.save_graph("data/bigDiGraph.dot")
+
