@@ -247,6 +247,7 @@ class DirectedGraph(object):
 
             print("digraph graphname {", file=f)
 
+            for node in self.nodes.values():
 
                 for edge in node.out_edges:
 
