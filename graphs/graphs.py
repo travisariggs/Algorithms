@@ -268,25 +268,42 @@ class DirectedGraph(object):
 
 if __name__ == '__main__':
 
-    a = Graph()
+    # a = Graph()
 
-    #a["Hello"] = "Goodbye"
-    a.add_node("Hello")
-    a.add_node(1, [2,3,4])
+    # #a["Hello"] = "Goodbye"
+    # a.add_node("Hello")
+    # a.add_node(1, [2,3,4])
 
-    print(a)
+    # print(a)
 
 
-    b = DirectedGraph()
+    # b = DirectedGraph()
 
-    b.add_node(1)
-    b.add_node(2)
-    # ipdb.set_trace()
-    b.add_di_edge(1, 2)
-    b.add_di_edge(2, 1)
-    b.add_di_edge(1, 3)
+    # b.add_node(1)
+    # b.add_node(2)
+    # # ipdb.set_trace()
+    # b.add_di_edge(1, 2)
+    # b.add_di_edge(2, 1)
+    # b.add_di_edge(1, 3)
 
-    b.save_graph("digraphtest")
+    # b.save_graph("digraphtest")
 
-    print(b)
+    d = DirectedGraph()
+    d.add_di_edge(1, 4)
+    d.add_di_edge(4, 7)
+    d.add_di_edge(7, 1)
+    d.add_di_edge(9, 7)
+    d.add_di_edge(9, 3)
+    d.add_di_edge(3, 6)
+    d.add_di_edge(6, 9)
+    d.add_di_edge(8, 6)
+    d.add_di_edge(8, 5)
+    d.add_di_edge(5, 2)
+    d.add_di_edge(2, 8)
+
+    d.depth_first_search(9)
+
+    print(d)
+
+    d.save_graph("digraphtest")
 
