@@ -249,6 +249,11 @@ class DirectedGraph(object):
 
             for node in self.nodes.values():
 
+                if node.explored:
+                    print(str(node.name) + " [color=chartreuse3" + \
+                          ",style=filled];",
+                          file=f)
+
                 for edge in node.out_edges:
 
                     print(str(node.name) + " -> " + str(edge.name) + ";",
