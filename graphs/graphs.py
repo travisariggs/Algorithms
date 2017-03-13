@@ -162,12 +162,31 @@ class DiEdge(object):
 class DirectedGraph(object):
     """Class for Directed Graphs"""
 
-
     def __init__(self):
 
         self.nodes = {}
         self.strong_connected_components = {}
         self.reversed = False
+        self._finishing_time = 0
+
+
+    def __repr__(self):
+
+        s = ["DirectedGraph"]
+
+        for node in self.nodes.values():
+
+            s.append("  Node: {}".format(node.name))
+            s.append("    Explored: {}".format(node.explored))
+            s.append("    Leader: {}".format(node.leader_node))
+            s.append("    Finishing Time: {}".format(node.finishing_time))
+
+            edges = [e.name for e in node.out_edges]
+            s.append("    Out Edges: {:}".format(edges))
+
+            st = "\n".join(s)
+
+        return st
 
 
     def add_node(self, label):
