@@ -208,6 +208,38 @@ class DirectedGraph(object):
         self.nodes[head].add_edge(tail, "in")
 
 
+    def depth_first_search(self, start_node=None, reverse=False):
+        """Perform a depth first search of the graph"""
+
+        # ipdb.set_trace()
+        if start_node:
+
+            node = self.nodes[start_node]
+
+        else:
+
+            node_key = list(self.nodes.keys())[0]
+            node = self.nodes[node_key]
+
+        # Mark node as explored
+        node.explored = True
+
+        for edge in node.out_edges:
+
+            # Get the node
+            next_node = self.nodes[edge.name]
+
+            if not next_node.explored:
+
+                self.depth_first_search(start_node=next_node.name)
+
+        # Increment the finishing time
+        self._finishing_time += 1
+
+        # Set the finishing time for the starting node
+        node.finishing_time = self._finishing_time
+
+
     def save_graph(self, filename):
         """Save the graph in a DOT file"""
 
@@ -215,7 +247,6 @@ class DirectedGraph(object):
 
             print("digraph graphname {", file=f)
 
-            for node_name, node in self.nodes.items():
 
                 for edge in node.out_edges:
 
