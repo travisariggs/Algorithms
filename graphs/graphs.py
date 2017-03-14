@@ -167,6 +167,7 @@ class DirectedGraph(object):
 
         # Private attributes
         self._finishing_time = 0
+        self._leader_index = None
 
 
     def __repr__(self):
@@ -207,6 +208,27 @@ class DirectedGraph(object):
         self.nodes[head].add_edge(tail, "in")
 
 
+    def clear_explored(self):
+        """Set all nodes to an 'unexplored' state"""
+
+        for node in self.nodes.values():
+            node.explored = False
+
+
+    def clear_finishing_times(self):
+        """Clear finishing times of all nodes"""
+
+        for node in self.nodes.values():
+            node.finishing_time = None
+
+
+    def clear_leaders(self):
+        """Clear the leader node labels from all nodes"""
+
+        for node in self.nodes.values():
+            node.leader_node = None
+
+
     def depth_first_search(self, start_node=None, reverse=False):
         """Perform a depth first search of the graph"""
 
@@ -222,20 +244,70 @@ class DirectedGraph(object):
         # Mark node as explored
         node.explored = True
 
-        for edge in node.out_edges:
+        # If a leader is defined, set it for this node
+        if self._leader_index:
+            node.leader_node = self._leader_index
+            # Also track the strong connections at the graph level
+            try:
+                self.sccs[self._leader_index].append(node.name)
+            except:
+                self.sccs[self._leader_index] = [node.name]
+
+        # Is the graph reversed?
+        if reverse:
+            edges = node.in_edges
+        else:
+            edges = node.out_edges
+
+        for edge in edges:
 
             # Get the node
             next_node = self.nodes[edge.name]
 
             if not next_node.explored:
 
-                self.depth_first_search(start_node=next_node.name)
+                self.depth_first_search(start_node=next_node.name,
+                                        reverse=reverse)
 
         # Increment the finishing time
         self._finishing_time += 1
 
         # Set the finishing time for the starting node
         node.finishing_time = self._finishing_time
+
+
+    def strong_connections(self):
+        """Search the graph for strongly connected components
+
+        This uses Kosarju's 2-pass algorithm
+        """
+
+        # Clear the explored, finishing times and leader nodes
+        self.clear_explored()
+        self.clear_finishing_times()
+        self.clear_leaders()
+
+        # Search through the reversed graph to calculate finishing times
+        for node_name in sorted(self.nodes.keys(), reverse=True):
+
+            node = self.nodes[node_name]
+
+            if not node.explored:
+                # self._leader_index = node_name
+                self.depth_first_search(node_name, reverse=True)
+
+
+        # Clear the explored states for a new search
+        self.clear_explored()
+
+        # Search through the normal graph in order of finishing time
+        for node in sorted(self.nodes.values(),
+                           key=lambda node: node.finishing_time,
+                           reverse=True):
+
+            if not node.explored:
+                self._leader_index = node.name
+                self.depth_first_search(node.name)
 
 
     def save_graph(self, filename):
