@@ -241,7 +241,7 @@ class DirectedGraph(object):
     def depth_first_search(self, start_node=None, reverse=False):
         """Perform a depth first search of the graph"""
 
-        if start_node:
+        if start_node is not None:
 
             node = self.nodes[start_node]
 
@@ -254,7 +254,7 @@ class DirectedGraph(object):
         node.explored = True
 
         # If a leader is defined, set it for this node
-        if self._leader_index:
+        if self._leader_index is not None:
             node.leader_node = self._leader_index
             # Also track the strong connections at the graph level
             try:
