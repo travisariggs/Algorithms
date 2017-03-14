@@ -174,6 +174,12 @@ class DirectedGraph(object):
 
         s = ["DirectedGraph"]
 
+        # Print strongly connected components
+        if self.sccs:
+            s.append(" Strongly Connected Components")
+            for scc in sorted(self.sccs.keys()):
+                s.append("  SCC {}: {:}".format(scc, sorted(self.sccs[scc])))
+
         for node in self.nodes.values():
 
             s.append("  Node: {}".format(node.name))
@@ -313,14 +319,32 @@ class DirectedGraph(object):
     def save_graph(self, filename):
         """Save the graph in a DOT file"""
 
+        colors = [ "cornflowerblue", "crimson", "chartreuse2",
+                   "darkorange2", "darkorchid3", "goldenrod1",
+                   "darkseagreen3", "cyan3", "deeppink3" ]
+
         with open(filename, 'w') as f:
 
             print("digraph graphname {", file=f)
 
             for node in self.nodes.values():
 
-                if node.explored:
-                    print(str(node.name) + " [color=chartreuse3" + \
+                if node.leader_node:
+
+                    # Color the strongly connected components the same
+                    #  color.
+
+                    # Choose a color from the list
+                    c = colors[int(node.leader_node) % len(colors)]
+
+                    print("  " + str(node.name) + \
+                          " [color={},style=filled];".format(c),
+                          file=f)
+
+                elif node.explored:
+
+                    # Visually mark the node as explored
+                    print("  " + str(node.name) + " [color=chartreuse3" + \
                           ",style=filled];",
                           file=f)
 
@@ -372,6 +396,7 @@ if __name__ == '__main__':
     d.add_di_edge(2, 8)
 
     # d.depth_first_search(9)
+    d.strong_connections()
 
     print(d)
 
