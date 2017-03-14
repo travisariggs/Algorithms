@@ -113,6 +113,23 @@ class Graph(dict):
         return edgesCount
 
 
+class DiEdge(object):
+
+    def __init__(self, current_node, neighbor_node, kind):
+
+        self.name = neighbor_node
+
+        if kind == "out":
+            self.tail = current_node
+            self.head = neighbor_node
+
+        elif kind == "in":
+            self.head = current_node
+            self.tail = neighbor_node
+
+        else:
+            raise ValueError("Unknown DiEdge kind: " + str(kind))
+
 
 class DiNode(object):
 
@@ -139,34 +156,16 @@ class DiNode(object):
             raise ValueError("Unknown Edge kind: " + str(kind))
 
 
-
-class DiEdge(object):
-
-    def __init__(self, current_node, neighbor_node, kind):
-
-        self.name = neighbor_node
-
-        if kind == "out":
-            self.tail = current_node
-            self.head = neighbor_node
-
-        elif kind == "in":
-            self.head = current_node
-            self.tail = neighbor_node
-
-        else:
-            raise ValueError("Unknown DiEdge kind: " + str(kind))
-
-
-
 class DirectedGraph(object):
     """Class for Directed Graphs"""
 
     def __init__(self):
 
         self.nodes = {}
-        self.strong_connected_components = {}
+        self.sccs = {}
         self.reversed = False
+
+        # Private attributes
         self._finishing_time = 0
 
 
@@ -211,7 +210,6 @@ class DirectedGraph(object):
     def depth_first_search(self, start_node=None, reverse=False):
         """Perform a depth first search of the graph"""
 
-        # ipdb.set_trace()
         if start_node:
 
             node = self.nodes[start_node]
@@ -256,18 +254,13 @@ class DirectedGraph(object):
 
                 for edge in node.out_edges:
 
-                    print(str(node.name) + " -> " + str(edge.name) + ";",
+                    print("  " + str(node.name) + " -> " + str(edge.name) + ";",
                           file=f)
 
             print("}", file=f)
 
         # Render the graph into an image
         graphviz.render('dot', 'png', filename)
-
-
-
-
-
 
 
 
@@ -306,7 +299,7 @@ if __name__ == '__main__':
     d.add_di_edge(5, 2)
     d.add_di_edge(2, 8)
 
-    d.depth_first_search(9)
+    # d.depth_first_search(9)
 
     print(d)
 
