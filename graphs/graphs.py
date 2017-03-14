@@ -190,6 +190,9 @@ class DirectedGraph(object):
             edges = [e.name for e in node.out_edges]
             s.append("    Out Edges: {:}".format(edges))
 
+            edges = [e.name for e in node.in_edges]
+            s.append("    In Edges:  {:}".format(edges))
+
             st = "\n".join(s)
 
         return st
