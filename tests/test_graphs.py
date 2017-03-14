@@ -39,6 +39,20 @@ class TestDirectedGraph(unittest.TestCase):
 
         self.assertTrue(result)
 
+    def test_StrongConnection_7(self):
+
+        self.graph.strong_connections()
+        self.assertEqual(sorted(self.graph.sccs[7]), [1,4,7])
+
+    def test_StrongConnection_8(self):
+
+        self.graph.strong_connections()
+        self.assertEqual(sorted(self.graph.sccs[8]), [2,5,8])
+
+    def test_StrongConnection_9(self):
+
+        self.graph.strong_connections()
+        self.assertEqual(sorted(self.graph.sccs[9]), [3,6,9])
 
 if __name__ == '__main__':
 
