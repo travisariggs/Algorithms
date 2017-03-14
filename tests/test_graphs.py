@@ -17,7 +17,8 @@ class TestDirectedGraph(unittest.TestCase):
         self.graph.add_di_edge(1, 4)
         self.graph.add_di_edge(4, 7)
         self.graph.add_di_edge(7, 1)
-        self.graph.add_di_edge(9, 7)
+        self.graph.add_di_edge(9, 0)
+        self.graph.add_di_edge(0, 7)
         self.graph.add_di_edge(9, 3)
         self.graph.add_di_edge(3, 6)
         self.graph.add_di_edge(6, 9)
@@ -38,6 +39,11 @@ class TestDirectedGraph(unittest.TestCase):
                 result = False
 
         self.assertTrue(result)
+
+    def test_StrongConnection_0(self):
+
+        self.graph.strong_connections()
+        self.assertEqual(sorted(self.graph.sccs[0]), [0])
 
     def test_StrongConnection_7(self):
 
