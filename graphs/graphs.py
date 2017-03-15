@@ -195,10 +195,17 @@ class DirectedGraph(object):
         # Print strongly connected components
         if self.sccs:
             s.append(" Strongly Connected Components")
-            for scc in sorted(self.sccs.keys()):
-                s.append("  SCC {}: {:}".format(scc, sorted(self.sccs[scc])))
 
-        for node in self.nodes.values():
+            # Get the top 8 SCC's by size
+            sccs = sorted(self.sccs.values(),
+                          key=lambda scc: len(scc),
+                          reverse=True)
+
+            for scc in sccs[:8]:
+                s.append("  SCC {}: {:}".format(max(scc), sorted(scc)))
+
+        # Only print the first 10 nodes
+        for node in list(self.nodes.values())[:10]:
 
             s.append("  Node: {}".format(node.name))
             s.append("    Explored: {}".format(node.explored))
