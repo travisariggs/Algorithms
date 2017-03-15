@@ -263,6 +263,71 @@ class DirectedGraph(object):
             node.leader_node = None
 
 
+    def depth_first_search_iter(self, start_node=None, reverse=False):
+        """Perform a depth first search of the graph using an iterative
+        algorithm, instead of recursive (because Python is not optimized
+        for tail recursion)
+        """
+
+        # explored = set()
+        explored = []
+
+        if start_node is None:
+            start_node = list(self.nodes.keys())[0]
+
+        stack = [start_node]
+
+        while stack:
+
+            #DEBUG
+            # ipdb.set_trace()
+
+            node_name = stack.pop()
+            node = self.nodes[node_name]
+
+            # if node_name not in explored:
+            if not node.explored:
+
+                # Track the nodes that have been explored. Although this
+                #  isn't necessary, I am tracking the explored nodes in
+                #  both a set and in the node objects themselves. The
+                #  set makes it easy to reference and return later, but
+                #  I feel that the node object should know if it were
+                #  explored or not.
+                # explored.add(node_name)
+                explored.append(node_name)
+                node.explored = True
+
+                # If a leader is defined, set it for this node
+                if self._leader_index is not None:
+                    node.leader_node = self._leader_index
+                    # Also track the strong connections at the graph level
+                    try:
+                        self.sccs[self._leader_index].append(node.name)
+                    except:
+                        self.sccs[self._leader_index] = [node.name]
+
+                # Should we search through the graph backwards?
+                if reverse:
+                    edges = node.in_edges
+                else:
+                    edges = node.out_edges
+
+                # Add the rest of the edges to the stack
+                for edge in edges:
+                    stack.append(edge.name)
+
+            else:
+
+                # Increment the finishing time
+                self._finishing_time += 1
+
+                # Set the finishing time for the starting node
+                node.finishing_time = self._finishing_time
+
+        return explored
+
+
     def depth_first_search(self, start_node=None, reverse=False):
         """Perform a depth first search of the graph"""
 
