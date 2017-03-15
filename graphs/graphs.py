@@ -389,11 +389,13 @@ class DirectedGraph(object):
         # Search through the reversed graph to calculate finishing times
         for node_name in sorted(self.nodes.keys(), reverse=True):
 
+            # ipdb.set_trace()
             node = self.nodes[node_name]
 
             if not node.explored:
                 # self._leader_index = node_name
                 self.depth_first_search(node_name, reverse=True)
+                # self.depth_first_search_iter(node_name, reverse=True)
 
 
         # Clear the explored states for a new search
@@ -407,6 +409,7 @@ class DirectedGraph(object):
             if not node.explored:
                 self._leader_index = node.name
                 self.depth_first_search(node.name)
+                # self.depth_first_search_iter(node.name)
 
 
     def save_graph(self, filename):
@@ -479,8 +482,8 @@ if __name__ == '__main__':
     d.add_di_edge(1, 4)
     d.add_di_edge(4, 7)
     d.add_di_edge(7, 1)
-    d.add_di_edge(9, 0)
-    d.add_di_edge(0, 7)
+    d.add_di_edge(9, 7)
+    # d.add_di_edge(0, 7)
     d.add_di_edge(9, 3)
     d.add_di_edge(3, 6)
     d.add_di_edge(6, 9)
@@ -489,10 +492,33 @@ if __name__ == '__main__':
     d.add_di_edge(5, 2)
     d.add_di_edge(2, 8)
 
+    explored = d.depth_first_search_iter(1, reverse=True)
     # d.depth_first_search(9)
-    d.strong_connections()
+    # d.strong_connections()
 
     print(d)
+    print(explored)
 
     d.save_graph("digraphtest")
 
+    # New tree graph
+    # d = DirectedGraph()
+    # d.add_di_edge(1, 2)
+    # d.add_di_edge(1, 3)
+    # d.add_di_edge(2, 4)
+    # d.add_di_edge(2, 5)
+    # d.add_di_edge(3, 6)
+    # d.add_di_edge(3, 7)
+    # d.add_di_edge(4, 8)
+    # d.add_di_edge(4, 9)
+    # d.add_di_edge(5, 10)
+    # d.add_di_edge(5, 11)
+    # d.add_di_edge(0, 3)
+    # d.add_di_edge(9, 1)
+
+    # explored = d.depth_first_search_iter(2)
+
+    # print(d)
+    # print(explored)
+
+    # d.save_graph("digraphtest2")
