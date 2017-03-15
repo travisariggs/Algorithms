@@ -143,6 +143,24 @@ class DiNode(object):
         self.finishing_time = None
 
 
+    def __repr__(self):
+
+        s = ["DiNode: {}".format(self.name)]
+        s.append("  Explored: {}".format(self.explored))
+        s.append("  Leader: {}".format(self.leader_node))
+        s.append("  Finishing Time: {}".format(self.finishing_time))
+
+        edges = [e.name for e in self.out_edges]
+        s.append("  Out Edges: {:}".format(edges))
+
+        edges = [e.name for e in self.in_edges]
+        s.append("  In Edges:  {:}".format(edges))
+
+        st = "\n".join(s)
+
+        return st
+
+
     def add_edge(self, node_name, kind):
 
 
