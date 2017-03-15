@@ -40,6 +40,19 @@ class TestDirectedGraph(unittest.TestCase):
 
         self.assertTrue(result)
 
+    def test_DepthFirstSearchIter(self):
+
+        self.graph.depth_first_search_iter(8)
+
+        result = True
+
+        for node in self.graph.nodes.values():
+
+            if not node.explored:
+                result = False
+
+        self.assertTrue(result)
+
     def test_StrongConnection_0(self):
 
         self.graph.strong_connections()
