@@ -29,7 +29,7 @@ class TestDirectedGraph(unittest.TestCase):
 
     def test_DepthFirstSearch(self):
 
-        self.graph.depth_first_search(8)
+        self.graph.depth_first_search_recursive(8)
 
         result = True
 
@@ -42,7 +42,7 @@ class TestDirectedGraph(unittest.TestCase):
 
     def test_DepthFirstSearchIter(self):
 
-        self.graph.depth_first_search_iter(8)
+        self.graph.depth_first_search(8)
 
         result = True
 
