@@ -270,6 +270,21 @@ class DirectedGraph(object):
             node.leader_node = None
 
 
+    def all_explored(self, node, reverse=False):
+        """Have all of this nodes edges been explored?"""
+
+        if reverse:
+            edges = node.in_edges
+        else:
+            edges = node.out_edges
+
+        for edge in edges:
+            if not self.nodes[edge.name].explored:
+               return False
+
+        return True
+
+
     def depth_first_search_iter(self, start_node=None, reverse=False):
         """Perform a depth first search of the graph using an iterative
         algorithm, instead of recursive (because Python is not optimized
