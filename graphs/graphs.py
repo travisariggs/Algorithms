@@ -291,20 +291,27 @@ class DirectedGraph(object):
         for tail recursion)
         """
 
-        # explored = set()
+        # Keep track of the order that nodes are explored
         explored = []
 
+        # Are we provided with a place to start? If not, just use the 1st
         if start_node is None:
             start_node = list(self.nodes.keys())[0]
 
+        # Use a list as a stack to track the exploration tasks
         stack = [start_node]
 
         while stack:
 
-            node_name = stack.pop()
+            # Don't pop the node off the stack until we have explored its
+            #  edges completely. That will get checked later with the
+            #  .all_explored() method. Only then will the node be popped
+            #  off the stack. This allows us to track the finishing time
+            #  of each node properly.
+            node_name = stack[-1]
             node = self.nodes[node_name]
 
-            # if node_name not in explored:
+            # Has this node been explored?
             if not node.explored:
 
                 # Track the nodes that have been explored. Although this
@@ -317,32 +324,47 @@ class DirectedGraph(object):
                 explored.append(node_name)
                 node.explored = True
 
-                # If a leader is defined, set it for this node
-                if self._leader_index is not None:
-                    node.leader_node = self._leader_index
-                    # Also track the strong connections at the graph level
-                    try:
-                        self.sccs[self._leader_index].append(node.name)
-                    except:
-                        self.sccs[self._leader_index] = [node.name]
+            # If a "leader" is defined, set it for this node
+            if self._leader_index is not None:
+                node.leader_node = self._leader_index
+                # Also track the strong connections at the graph level
+                try:
+                    self.sccs[self._leader_index].add(node.name)
+                except:
+                    self.sccs[self._leader_index] = set([node.name])
+
+            # Does this node still have edges to explore?
+            if not self.all_explored(node, reverse):
 
                 # Should we search through the graph backwards?
                 if reverse:
-                    edges = node.in_edges
+                    edges = sorted(node.in_edges,
+                                   key=lambda edge: edge.name,
+                                   reverse=True)
                 else:
-                    edges = node.out_edges
+                    edges = sorted(node.out_edges,
+                                   key=lambda edge: edge.name,
+                                   reverse=True)
 
-                # Add the rest of the edges to the stack
+                # Add the next unexplored edge to the stack
                 for edge in edges:
-                    stack.append(edge.name)
+                    if not self.nodes[edge.name].explored:
+                        stack.append(edge.name)
+                        break
 
             else:
 
-                # Increment the finishing time
-                self._finishing_time += 1
+                # This node is now "complete".
+                stack.pop()
 
-                # Set the finishing time for the starting node
-                node.finishing_time = self._finishing_time
+                # If the node doesn't have a finishing time, set it
+                if node.finishing_time is None:
+
+                    # Increment the finishing time
+                    self._finishing_time += 1
+
+                    # Set the finishing time for the starting node
+                    node.finishing_time = self._finishing_time
 
         return explored
 
