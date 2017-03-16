@@ -36,7 +36,8 @@ if __name__ == '__main__':
     print("Beginning strong connection analysis...")
 
     # digraph.save_graph("data/smalldigraph.dot")
-    # digraph.strong_connections()
+    digraph.strong_connections()
 
-    print(digraph)
+    # print(digraph)
+    digraph.print_sccs(limit=10)
 
