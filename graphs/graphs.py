@@ -285,7 +285,7 @@ class DirectedGraph(object):
         return True
 
 
-    def depth_first_search_iter(self, start_node=None, reverse=False):
+    def depth_first_search(self, start_node=None, reverse=False):
         """Perform a depth first search of the graph using an iterative
         algorithm, instead of recursive (because Python is not optimized
         for tail recursion)
@@ -369,8 +369,8 @@ class DirectedGraph(object):
         return explored
 
 
-    def depth_first_search(self, start_node=None, reverse=False):
-        """Perform a depth first search of the graph"""
+    def depth_first_search_recursive(self, start_node=None, reverse=False):
+        """Perform a depth first search of the graph recursively"""
 
         if start_node is not None:
 
@@ -406,8 +406,8 @@ class DirectedGraph(object):
 
             if not next_node.explored:
 
-                self.depth_first_search(start_node=next_node.name,
-                                        reverse=reverse)
+                self.depth_first_search_recursive(start_node=next_node.name,
+                                                  reverse=reverse)
 
         # Increment the finishing time
         self._finishing_time += 1
@@ -433,9 +433,7 @@ class DirectedGraph(object):
             node = self.nodes[node_name]
 
             if not node.explored:
-                # self._leader_index = node_name
                 self.depth_first_search(node_name, reverse=True)
-                # self.depth_first_search_iter(node_name, reverse=True)
 
 
         # Clear the explored states for a new search
@@ -449,7 +447,6 @@ class DirectedGraph(object):
             if not node.explored:
                 self._leader_index = node.name
                 self.depth_first_search(node.name)
-                # self.depth_first_search_iter(node.name)
 
 
     def save_graph(self, filename):
@@ -531,7 +528,7 @@ if __name__ == '__main__':
     d.add_di_edge(5, 2)
     d.add_di_edge(2, 8)
 
-    explored = d.depth_first_search_iter(1, reverse=True)
+    # explored = d.depth_first_search(9, reverse=True)
     # d.depth_first_search(9)
     # d.strong_connections()
 
@@ -555,7 +552,7 @@ if __name__ == '__main__':
     # d.add_di_edge(0, 3)
     # d.add_di_edge(9, 1)
 
-    # explored = d.depth_first_search_iter(2)
+    # explored = d.depth_first_search(2)
 
     # print(d)
     # print(explored)
