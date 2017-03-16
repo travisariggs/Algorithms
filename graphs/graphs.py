@@ -230,6 +230,30 @@ class DirectedGraph(object):
 
         return st
 
+    def print_sccs(self, limit=5):
+        """Print information about the top n SCC groups"""
+
+        st = None
+
+        # Print strongly connected components
+        if self.sccs:
+
+            s = ["Strongly Connected Components"]
+
+            # Get the top N SCC's by size
+            sccs = sorted(self.sccs.values(),
+                          key=lambda scc: len(scc),
+                          reverse=True)
+
+            for scc in sccs[:limit]:
+                s.append("  SCC {}: size {}: {:}".format(max(scc), len(scc), list(scc)[:10]))
+
+            st = "\n".join(s)
+
+            print(st)
+
+        return st
+
 
     def add_node(self, label):
 
