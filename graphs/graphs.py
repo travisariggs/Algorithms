@@ -24,8 +24,6 @@ class Graph(dict):
 
     def add_node(self, node_name, edges=[]):
         """Add a node to the graph and optionally a set of edges"""
-
-        #ipdb.set_trace()
         self[node_name] = edges
 
 
@@ -80,8 +78,6 @@ class Graph(dict):
             # Randomly select an edge to contract
             firstNode = random.choice(list(graph.keys()))
             secondNode = random.choice(graph[firstNode])
-
-            # ipdb.set_trace()
 
             # Remove the edge reference from the first and second node
             graph[firstNode].remove(secondNode)
@@ -230,7 +226,6 @@ class DirectedGraph(object):
 
     def add_di_edge(self, tail, head):
 
-        # ipdb.set_trace()
         if tail not in self.nodes:
             self.add_node(tail)
 
@@ -278,9 +273,6 @@ class DirectedGraph(object):
         stack = [start_node]
 
         while stack:
-
-            #DEBUG
-            # ipdb.set_trace()
 
             node_name = stack.pop()
             node = self.nodes[node_name]
@@ -389,7 +381,6 @@ class DirectedGraph(object):
         # Search through the reversed graph to calculate finishing times
         for node_name in sorted(self.nodes.keys(), reverse=True):
 
-            # ipdb.set_trace()
             node = self.nodes[node_name]
 
             if not node.explored:
@@ -471,7 +462,6 @@ if __name__ == '__main__':
 
     # b.add_node(1)
     # b.add_node(2)
-    # # ipdb.set_trace()
     # b.add_di_edge(1, 2)
     # b.add_di_edge(2, 1)
     # b.add_di_edge(1, 3)
