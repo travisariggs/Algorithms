@@ -518,8 +518,9 @@ if __name__ == '__main__':
     d.add_di_edge(1, 4)
     d.add_di_edge(4, 7)
     d.add_di_edge(7, 1)
-    d.add_di_edge(9, 7)
-    # d.add_di_edge(0, 7)
+    # d.add_di_edge(9, 7)
+    d.add_di_edge(9, 0)
+    d.add_di_edge(0, 7)
     d.add_di_edge(9, 3)
     d.add_di_edge(3, 6)
     d.add_di_edge(6, 9)
@@ -528,12 +529,13 @@ if __name__ == '__main__':
     d.add_di_edge(5, 2)
     d.add_di_edge(2, 8)
 
+    # ipdb.set_trace()
     # explored = d.depth_first_search(9, reverse=True)
     # d.depth_first_search(9)
-    # d.strong_connections()
+    d.strong_connections()
 
     print(d)
-    print(explored)
+    # print(explored)
 
     d.save_graph("digraphtest")
 
