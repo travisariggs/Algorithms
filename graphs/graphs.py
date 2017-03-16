@@ -127,6 +127,18 @@ class DiEdge(object):
             raise ValueError("Unknown DiEdge kind: " + str(kind))
 
 
+    def __repr__(self):
+
+        s = ["DiEdge: {}".format(self.name)]
+
+        s.append("  Head: {}".format(self.head))
+        s.append("  Tail: {}".format(self.tail))
+
+        st = "\n".join(s)
+
+        return st
+
+
 class DiNode(object):
 
     def __init__(self, name, edges=None):
