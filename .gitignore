@@ -3,3 +3,6 @@ venv
 *.dot
 *.png
 tags
+*.swp
+*.swo
+digraph*
