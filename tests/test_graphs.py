@@ -73,6 +73,22 @@ class TestDirectedGraph(unittest.TestCase):
         self.graph.strong_connections()
         self.assertEqual(sorted(self.graph.sccs[9]), [3,6,9])
 
+
+class TestVariedLengthGraph(unittest.TestCase):
+
+    def setUp(self):
+
+        self.graph = g.DirectedGraph()
+        self.graph.add_di_edge(1, 2, length=1)
+        self.graph.add_di_edge(1, 3, length=4)
+        self.graph.add_di_edge(2, 3, length=2)
+        self.graph.add_di_edge(2, 4, length=6)
+        self.graph.add_di_edge(3, 4, length=3)
+
+    def test_Nothing(self):
+        pass
+
+
 if __name__ == '__main__':
 
     unittest.main()

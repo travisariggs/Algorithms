@@ -260,7 +260,7 @@ class DirectedGraph(object):
         self.nodes[label] = DiNode(label)
 
 
-    def add_di_edge(self, tail, head):
+    def add_di_edge(self, tail, head, length=None):
 
         if tail not in self.nodes:
             self.add_node(tail)
@@ -519,6 +519,19 @@ class DirectedGraph(object):
 
 if __name__ == '__main__':
 
+    # A Simple Directed graph with various edge lengths
+    d = DirectedGraph()
+
+    d.add_di_edge(1, 2, length=1)
+    d.add_di_edge(1, 3, length=4)
+    d.add_di_edge(2, 3, length=2)
+    d.add_di_edge(2, 4, length=6)
+    d.add_di_edge(3, 4, length=3)
+
+    print(d)
+
+    d.save_graph("digraphtest")
+
     # a = Graph()
 
     # #a["Hello"] = "Goodbye"
@@ -538,30 +551,30 @@ if __name__ == '__main__':
 
     # b.save_graph("digraphtest")
 
-    d = DirectedGraph()
-    d.add_di_edge(1, 4)
-    d.add_di_edge(4, 7)
-    d.add_di_edge(7, 1)
-    # d.add_di_edge(9, 7)
-    d.add_di_edge(9, 0)
-    d.add_di_edge(0, 7)
-    d.add_di_edge(9, 3)
-    d.add_di_edge(3, 6)
-    d.add_di_edge(6, 9)
-    d.add_di_edge(8, 6)
-    d.add_di_edge(8, 5)
-    d.add_di_edge(5, 2)
-    d.add_di_edge(2, 8)
+    # d = DirectedGraph()
+    # d.add_di_edge(1, 4)
+    # d.add_di_edge(4, 7)
+    # d.add_di_edge(7, 1)
+    # # d.add_di_edge(9, 7)
+    # d.add_di_edge(9, 0)
+    # d.add_di_edge(0, 7)
+    # d.add_di_edge(9, 3)
+    # d.add_di_edge(3, 6)
+    # d.add_di_edge(6, 9)
+    # d.add_di_edge(8, 6)
+    # d.add_di_edge(8, 5)
+    # d.add_di_edge(5, 2)
+    # d.add_di_edge(2, 8)
 
     # ipdb.set_trace()
     # explored = d.depth_first_search(9, reverse=True)
     # d.depth_first_search(9)
-    d.strong_connections()
+    # d.strong_connections()
 
-    print(d)
+    # print(d)
     # print(explored)
 
-    d.save_graph("digraphtest")
+    # d.save_graph("digraphtest")
 
     # New tree graph
     # d = DirectedGraph()
