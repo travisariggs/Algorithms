@@ -501,6 +501,81 @@ class DirectedGraph(object):
                 self.depth_first_search(node.name)
 
 
+    def dijkstras_shortest_path(self, start, finish):
+        """Use Dijkstra's Shortest Path algorithm to find the shortest
+        pass in a directed graph.
+
+        Returns a list of nodes and the total distance
+        """
+
+        path = [start]
+        distances = {start: 0}
+        explored_nodes = [self.nodes[start]]
+        explored_names = [start]
+
+        found = False
+
+        while not found:
+
+            #DEBUG
+            # ipdb.set_trace()
+
+            # Did we find the goal node?
+            if finish in explored_names:
+                found = True
+                break
+
+            # Clear the minimum distance
+            min_distance = None
+
+            # Loop through each of the outgoing edges that are on the
+            #  frontier.
+            for node in explored_nodes:
+                for edge in node.out_edges:
+
+                    # Have we found an edge on the frontier?
+                    if edge.head not in explored_names:
+
+                        # Calculate the total distance if we chose this
+                        #  edge
+                        this_distance = distances[node.name] + edge.length
+
+                        if min_distance is not None:
+
+                            # Is this a better edge to choose?
+                            if this_distance < min_distance:
+                                min_distance = this_distance
+                                previous_node = node
+                                next_node = self.nodes[edge.head]
+                                next_edge = edge
+
+                        else:
+
+                            min_distance = this_distance
+                            previous_node = node
+                            next_node = self.nodes[edge.head]
+                            next_edge = edge
+
+            # Now that we've explored all the edges of all of the nodes
+            #  on the frontier, add the minimum distance node to the
+            #  explored set.
+            explored_nodes.append(next_node)
+            explored_names.append(next_node.name)
+            distances[next_node.name] = min_distance
+
+            # Update the shortest path
+            if path[-1] == previous_node.name:
+                path.append(next_node.name)
+
+            else:
+                # Prune the path to get back to frontier node
+                frontier_index = path.index(previous_node.name)
+                path = path[:frontier_index+1] + [next_node.name]
+
+
+        return path, distances[finish]
+
+
     def save_graph(self, filename):
         """Save the graph in a DOT file"""
 
