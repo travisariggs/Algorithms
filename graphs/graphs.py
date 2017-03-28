@@ -111,7 +111,7 @@ class Graph(dict):
 
 class DiEdge(object):
 
-    def __init__(self, current_node, neighbor_node, kind):
+    def __init__(self, current_node, neighbor_node, kind, length=None):
 
         self.name = neighbor_node
 
@@ -126,6 +126,9 @@ class DiEdge(object):
         else:
             raise ValueError("Unknown DiEdge kind: " + str(kind))
 
+        if length is not None:
+            self.length = length
+
 
     def __repr__(self):
 
@@ -133,6 +136,9 @@ class DiEdge(object):
 
         s.append("  Head: {}".format(self.head))
         s.append("  Tail: {}".format(self.tail))
+
+        if self.length is not None:
+            s.append("    Length: {}".format(self.length))
 
         st = "\n".join(s)
 
@@ -229,6 +235,7 @@ class DirectedGraph(object):
             st = "\n".join(s)
 
         return st
+
 
     def print_sccs(self, limit=5):
         """Print information about the top n SCC groups"""
