@@ -564,13 +564,13 @@ class DirectedGraph(object):
             distances[next_node.name] = min_distance
 
             # Update the shortest path
-            if path[-1] == previous_node.name:
-                path.append(next_node.name)
+            # if path[-1] == previous_node.name:
+                # path.append(next_node.name)
 
-            else:
+            # else:
                 # Prune the path to get back to frontier node
-                frontier_index = path.index(previous_node.name)
-                path = path[:frontier_index+1] + [next_node.name]
+                # frontier_index = path.index(previous_node.name)
+                # path = path[:frontier_index+1] + [next_node.name]
 
 
         return path, distances[finish]
