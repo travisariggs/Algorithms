@@ -260,7 +260,7 @@ class DirectedGraph(object):
         self.nodes[label] = DiNode(label)
 
 
-    def add_di_edge(self, tail, head, length=None):
+    def add_edge(self, tail, head, length=None):
 
         if tail not in self.nodes:
             self.add_node(tail)
@@ -522,11 +522,11 @@ if __name__ == '__main__':
     # A Simple Directed graph with various edge lengths
     d = DirectedGraph()
 
-    d.add_di_edge(1, 2, length=1)
-    d.add_di_edge(1, 3, length=4)
-    d.add_di_edge(2, 3, length=2)
-    d.add_di_edge(2, 4, length=6)
-    d.add_di_edge(3, 4, length=3)
+    d.add_edge(1, 2, length=1)
+    d.add_edge(1, 3, length=4)
+    d.add_edge(2, 3, length=2)
+    d.add_edge(2, 4, length=6)
+    d.add_edge(3, 4, length=3)
 
     print(d)
 
@@ -545,26 +545,26 @@ if __name__ == '__main__':
 
     # b.add_node(1)
     # b.add_node(2)
-    # b.add_di_edge(1, 2)
-    # b.add_di_edge(2, 1)
-    # b.add_di_edge(1, 3)
+    # b.add_edge(1, 2)
+    # b.add_edge(2, 1)
+    # b.add_edge(1, 3)
 
     # b.save_graph("digraphtest")
 
     # d = DirectedGraph()
-    # d.add_di_edge(1, 4)
-    # d.add_di_edge(4, 7)
-    # d.add_di_edge(7, 1)
-    # # d.add_di_edge(9, 7)
-    # d.add_di_edge(9, 0)
-    # d.add_di_edge(0, 7)
-    # d.add_di_edge(9, 3)
-    # d.add_di_edge(3, 6)
-    # d.add_di_edge(6, 9)
-    # d.add_di_edge(8, 6)
-    # d.add_di_edge(8, 5)
-    # d.add_di_edge(5, 2)
-    # d.add_di_edge(2, 8)
+    # d.add_edge(1, 4)
+    # d.add_edge(4, 7)
+    # d.add_edge(7, 1)
+    # # d.add_edge(9, 7)
+    # d.add_edge(9, 0)
+    # d.add_edge(0, 7)
+    # d.add_edge(9, 3)
+    # d.add_edge(3, 6)
+    # d.add_edge(6, 9)
+    # d.add_edge(8, 6)
+    # d.add_edge(8, 5)
+    # d.add_edge(5, 2)
+    # d.add_edge(2, 8)
 
     # ipdb.set_trace()
     # explored = d.depth_first_search(9, reverse=True)
@@ -578,18 +578,18 @@ if __name__ == '__main__':
 
     # New tree graph
     # d = DirectedGraph()
-    # d.add_di_edge(1, 2)
-    # d.add_di_edge(1, 3)
-    # d.add_di_edge(2, 4)
-    # d.add_di_edge(2, 5)
-    # d.add_di_edge(3, 6)
-    # d.add_di_edge(3, 7)
-    # d.add_di_edge(4, 8)
-    # d.add_di_edge(4, 9)
-    # d.add_di_edge(5, 10)
-    # d.add_di_edge(5, 11)
-    # d.add_di_edge(0, 3)
-    # d.add_di_edge(9, 1)
+    # d.add_edge(1, 2)
+    # d.add_edge(1, 3)
+    # d.add_edge(2, 4)
+    # d.add_edge(2, 5)
+    # d.add_edge(3, 6)
+    # d.add_edge(3, 7)
+    # d.add_edge(4, 8)
+    # d.add_edge(4, 9)
+    # d.add_edge(5, 10)
+    # d.add_edge(5, 11)
+    # d.add_edge(0, 3)
+    # d.add_edge(9, 1)
 
     # explored = d.depth_first_search(2)
 

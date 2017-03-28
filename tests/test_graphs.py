@@ -14,18 +14,18 @@ class TestDirectedGraph(unittest.TestCase):
     def setUp(self):
 
         self.graph = g.DirectedGraph()
-        self.graph.add_di_edge(1, 4)
-        self.graph.add_di_edge(4, 7)
-        self.graph.add_di_edge(7, 1)
-        self.graph.add_di_edge(9, 0)
-        self.graph.add_di_edge(0, 7)
-        self.graph.add_di_edge(9, 3)
-        self.graph.add_di_edge(3, 6)
-        self.graph.add_di_edge(6, 9)
-        self.graph.add_di_edge(8, 6)
-        self.graph.add_di_edge(8, 5)
-        self.graph.add_di_edge(5, 2)
-        self.graph.add_di_edge(2, 8)
+        self.graph.add_edge(1, 4)
+        self.graph.add_edge(4, 7)
+        self.graph.add_edge(7, 1)
+        self.graph.add_edge(9, 0)
+        self.graph.add_edge(0, 7)
+        self.graph.add_edge(9, 3)
+        self.graph.add_edge(3, 6)
+        self.graph.add_edge(6, 9)
+        self.graph.add_edge(8, 6)
+        self.graph.add_edge(8, 5)
+        self.graph.add_edge(5, 2)
+        self.graph.add_edge(2, 8)
 
     def test_DepthFirstSearch(self):
 
@@ -79,11 +79,11 @@ class TestVariedLengthGraph(unittest.TestCase):
     def setUp(self):
 
         self.graph = g.DirectedGraph()
-        self.graph.add_di_edge(1, 2, length=1)
-        self.graph.add_di_edge(1, 3, length=4)
-        self.graph.add_di_edge(2, 3, length=2)
-        self.graph.add_di_edge(2, 4, length=6)
-        self.graph.add_di_edge(3, 4, length=3)
+        self.graph.add_edge(1, 2, length=1)
+        self.graph.add_edge(1, 3, length=4)
+        self.graph.add_edge(2, 3, length=2)
+        self.graph.add_edge(2, 4, length=6)
+        self.graph.add_edge(3, 4, length=3)
 
     def test_Nothing(self):
         pass

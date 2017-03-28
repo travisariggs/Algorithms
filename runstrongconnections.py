@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
             head, tail = line.strip().split(" ")
 
-            digraph.add_di_edge(int(head), int(tail))
+            digraph.add_edge(int(head), int(tail))
 
     print("Loaded graph from file")
     print(len(list(digraph.nodes.keys())))
