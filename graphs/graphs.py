@@ -634,70 +634,9 @@ if __name__ == '__main__':
     print(d)
     # ipdb.set_trace()
 
+    path, distance = d.dijkstras_shortest_path(1, 4)
+
+    print("Distance: {}, Path: {}".format(distance, path))
+
     d.save_graph("digraphtest")
 
-    # a = Graph()
-
-    # #a["Hello"] = "Goodbye"
-    # a.add_node("Hello")
-    # a.add_node(1, [2,3,4])
-
-    # print(a)
-
-
-    # b = DirectedGraph()
-
-    # b.add_node(1)
-    # b.add_node(2)
-    # b.add_edge(1, 2)
-    # b.add_edge(2, 1)
-    # b.add_edge(1, 3)
-
-    # b.save_graph("digraphtest")
-
-    # d = DirectedGraph()
-    # d.add_edge(1, 4)
-    # d.add_edge(4, 7)
-    # d.add_edge(7, 1)
-    # # d.add_edge(9, 7)
-    # d.add_edge(9, 0)
-    # d.add_edge(0, 7)
-    # d.add_edge(9, 3)
-    # d.add_edge(3, 6)
-    # d.add_edge(6, 9)
-    # d.add_edge(8, 6)
-    # d.add_edge(8, 5)
-    # d.add_edge(5, 2)
-    # d.add_edge(2, 8)
-
-    # ipdb.set_trace()
-    # explored = d.depth_first_search(9, reverse=True)
-    # d.depth_first_search(9)
-    # d.strong_connections()
-
-    # print(d)
-    # print(explored)
-
-    # d.save_graph("digraphtest")
-
-    # New tree graph
-    # d = DirectedGraph()
-    # d.add_edge(1, 2)
-    # d.add_edge(1, 3)
-    # d.add_edge(2, 4)
-    # d.add_edge(2, 5)
-    # d.add_edge(3, 6)
-    # d.add_edge(3, 7)
-    # d.add_edge(4, 8)
-    # d.add_edge(4, 9)
-    # d.add_edge(5, 10)
-    # d.add_edge(5, 11)
-    # d.add_edge(0, 3)
-    # d.add_edge(9, 1)
-
-    # explored = d.depth_first_search(2)
-
-    # print(d)
-    # print(explored)
-
-    # d.save_graph("digraphtest2")
