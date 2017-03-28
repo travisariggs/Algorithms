@@ -132,13 +132,22 @@ class DiEdge(object):
 
     def __repr__(self):
 
-        s = ["DiEdge: {}".format(self.name)]
-
-        s.append("  Head: {}".format(self.head))
-        s.append("  Tail: {}".format(self.tail))
-
+        s = []
         if self.length is not None:
-            s.append("    Length: {}".format(self.length))
+            s.append("     DiEdge: {}, Tail: {}, Head: {}, Length: {}".format(
+                        self.name,
+                        self.tail,
+                        self.head,
+                        self.length)
+                    )
+
+        else:
+
+            s.append("     DiEdge: {}, Tail: {}, Head: {}".format(
+                        self.name,
+                        self.tail,
+                        self.head)
+                    )
 
         st = "\n".join(s)
 
@@ -147,7 +156,7 @@ class DiEdge(object):
 
 class DiNode(object):
 
-    def __init__(self, name, edges=None):
+    def __init__(self, name):
 
         self.name = name
         self.in_edges = []
@@ -164,25 +173,34 @@ class DiNode(object):
         s.append("  Leader: {}".format(self.leader_node))
         s.append("  Finishing Time: {}".format(self.finishing_time))
 
-        edges = [e.name for e in self.out_edges]
-        s.append("  Out Edges: {:}".format(edges))
+        if self.out_edges:
+            s.append("   Out Edges: [")
+            for e in self.out_edges:
+                s.append("{}".format(e))
+            s.append("   ]")
+        else:
+            s.append("   Out Edges: []")
 
-        edges = [e.name for e in self.in_edges]
-        s.append("  In Edges:  {:}".format(edges))
+        if self.in_edges:
+            s.append("   In Edges: [")
+            for e in self.in_edges:
+                s.append("{}".format(e))
+            s.append("   ]")
+        else:
+            s.append("   In Edges: []")
 
         st = "\n".join(s)
 
         return st
 
 
-    def add_edge(self, node_name, kind):
-
+    def add_edge(self, node_name, kind, length=None):
 
         if kind == "out":
-            self.out_edges.append(DiEdge(self.name, node_name, kind))
+            self.out_edges.append(DiEdge(self.name, node_name, kind, length))
 
         elif kind == "in":
-            self.in_edges.append(DiEdge(self.name, node_name, kind))
+            self.in_edges.append(DiEdge(self.name, node_name, kind, length))
 
         else:
             raise ValueError("Unknown Edge kind: " + str(kind))
@@ -221,16 +239,18 @@ class DirectedGraph(object):
         # Only print the first 10 nodes
         for node in list(self.nodes.values())[:10]:
 
-            s.append("  Node: {}".format(node.name))
-            s.append("    Explored: {}".format(node.explored))
-            s.append("    Leader: {}".format(node.leader_node))
-            s.append("    Finishing Time: {}".format(node.finishing_time))
+            s.append("  {}".format(node))
 
-            edges = [e.name for e in node.out_edges]
-            s.append("    Out Edges: {:}".format(edges))
+            # s.append("  Node: {}".format(node.name))
+            # s.append("    Explored: {}".format(node.explored))
+            # s.append("    Leader: {}".format(node.leader_node))
+            # s.append("    Finishing Time: {}".format(node.finishing_time))
 
-            edges = [e.name for e in node.in_edges]
-            s.append("    In Edges:  {:}".format(edges))
+            # edges = [e.name for e in node.out_edges]
+            # s.append("    Out Edges: {:}".format(edges))
+
+            # edges = [e.name for e in node.in_edges]
+            # s.append("    In Edges:  {:}".format(edges))
 
             st = "\n".join(s)
 
@@ -253,7 +273,8 @@ class DirectedGraph(object):
                           reverse=True)
 
             for scc in sccs[:limit]:
-                s.append("  SCC {}: size {}: {:}".format(max(scc), len(scc), list(scc)[:10]))
+                s.append("  SCC {}: size {}: {:}".format(max(scc), len(scc),
+                                                         list(scc)[:10]))
 
             st = "\n".join(s)
 
@@ -275,9 +296,9 @@ class DirectedGraph(object):
         if head not in self.nodes:
             self.add_node(head)
 
-        self.nodes[tail].add_edge(head, "out")
+        self.nodes[tail].add_edge(head, "out", length)
 
-        self.nodes[head].add_edge(tail, "in")
+        self.nodes[head].add_edge(tail, "in", length)
 
 
     def clear_explored(self):
@@ -536,6 +557,7 @@ if __name__ == '__main__':
     d.add_edge(3, 4, length=3)
 
     print(d)
+    # ipdb.set_trace()
 
     d.save_graph("digraphtest")
 
