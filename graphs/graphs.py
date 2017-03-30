@@ -635,11 +635,29 @@ if __name__ == '__main__':
     d.add_edge(3, 4, length=3)
 
     print(d)
-    # ipdb.set_trace()
 
     path, distance = d.dijkstras_shortest_path(1, 4)
 
     print("Distance: {}, Path: {}".format(distance, path))
 
     d.save_graph("digraphtest")
+
+
+    graph = DirectedGraph()
+    graph.add_edge(0, 1, length=1)
+    graph.add_edge(1, 2, length=1)
+    graph.add_edge(2, 3, length=1)
+    graph.add_edge(3, 4, length=1)
+    graph.add_edge(4, 5, length=1)
+    graph.add_edge(5, 6, length=1)
+    graph.add_edge(6, 7, length=1)
+    graph.add_edge(7, 8, length=1)
+    graph.add_edge(8, 9, length=1)
+    graph.add_edge(0, 9, length=8)
+
+    path, distance = graph.dijkstras_shortest_path(0, 9)
+
+    print("Distance: {}".format(distance))
+    print("Path: {}".format(path))
+
 
