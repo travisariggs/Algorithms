@@ -508,7 +508,7 @@ class DirectedGraph(object):
         Returns a list of nodes and the total distance
         """
 
-        path = [start]
+        path = [(start, start)]
         distances = {start: 0}
         explored_nodes = [self.nodes[start]]
         explored_names = [start]
@@ -556,16 +556,27 @@ class DirectedGraph(object):
             distances[next_node.name] = min_distance
 
             # Update the shortest path
-            # if path[-1] == previous_node.name:
-                # path.append(next_node.name)
+            path.append((next_node.name, previous_node.name))
 
-            # else:
-                # Prune the path to get back to frontier node
-                # frontier_index = path.index(previous_node.name)
-                # path = path[:frontier_index+1] + [next_node.name]
+        # Now, work backwards from the finish in the path list to get
+        #  the actual shortest path using the parent information
+        shortest_path = []
+        path_parent = None
 
+        while len(path) > 0:
 
-        return path, distances[finish]
+            node_name, parent_name = path.pop()
+
+            if path_parent is None or node_name == path_parent:
+                shortest_path.append(node_name)
+                path_parent = parent_name
+
+        # Now shortest_path should be populated with only the node names
+        #  that were actually in the shortest path, but they are in
+        #  reverse order.
+        shortest_path.reverse()
+
+        return shortest_path, distances[finish]
 
 
     def save_graph(self, filename):
