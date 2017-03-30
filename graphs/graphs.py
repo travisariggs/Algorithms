@@ -111,7 +111,7 @@ class Graph(dict):
 
 class DiEdge(object):
 
-    def __init__(self, current_node, neighbor_node, kind):
+    def __init__(self, current_node, neighbor_node, kind, length=None):
 
         self.name = neighbor_node
 
@@ -126,13 +126,28 @@ class DiEdge(object):
         else:
             raise ValueError("Unknown DiEdge kind: " + str(kind))
 
+        if length is not None:
+            self.length = length
+
 
     def __repr__(self):
 
-        s = ["DiEdge: {}".format(self.name)]
+        s = []
+        if self.length is not None:
+            s.append("     DiEdge: {}, Tail: {}, Head: {}, Length: {}".format(
+                        self.name,
+                        self.tail,
+                        self.head,
+                        self.length)
+                    )
 
-        s.append("  Head: {}".format(self.head))
-        s.append("  Tail: {}".format(self.tail))
+        else:
+
+            s.append("     DiEdge: {}, Tail: {}, Head: {}".format(
+                        self.name,
+                        self.tail,
+                        self.head)
+                    )
 
         st = "\n".join(s)
 
@@ -141,7 +156,7 @@ class DiEdge(object):
 
 class DiNode(object):
 
-    def __init__(self, name, edges=None):
+    def __init__(self, name):
 
         self.name = name
         self.in_edges = []
@@ -158,25 +173,34 @@ class DiNode(object):
         s.append("  Leader: {}".format(self.leader_node))
         s.append("  Finishing Time: {}".format(self.finishing_time))
 
-        edges = [e.name for e in self.out_edges]
-        s.append("  Out Edges: {:}".format(edges))
+        if self.out_edges:
+            s.append("   Out Edges: [")
+            for e in self.out_edges:
+                s.append("{}".format(e))
+            s.append("   ]")
+        else:
+            s.append("   Out Edges: []")
 
-        edges = [e.name for e in self.in_edges]
-        s.append("  In Edges:  {:}".format(edges))
+        if self.in_edges:
+            s.append("   In Edges: [")
+            for e in self.in_edges:
+                s.append("{}".format(e))
+            s.append("   ]")
+        else:
+            s.append("   In Edges: []")
 
         st = "\n".join(s)
 
         return st
 
 
-    def add_edge(self, node_name, kind):
-
+    def add_edge(self, node_name, kind, length=None):
 
         if kind == "out":
-            self.out_edges.append(DiEdge(self.name, node_name, kind))
+            self.out_edges.append(DiEdge(self.name, node_name, kind, length))
 
         elif kind == "in":
-            self.in_edges.append(DiEdge(self.name, node_name, kind))
+            self.in_edges.append(DiEdge(self.name, node_name, kind, length))
 
         else:
             raise ValueError("Unknown Edge kind: " + str(kind))
@@ -215,20 +239,23 @@ class DirectedGraph(object):
         # Only print the first 10 nodes
         for node in list(self.nodes.values())[:10]:
 
-            s.append("  Node: {}".format(node.name))
-            s.append("    Explored: {}".format(node.explored))
-            s.append("    Leader: {}".format(node.leader_node))
-            s.append("    Finishing Time: {}".format(node.finishing_time))
+            s.append("  {}".format(node))
 
-            edges = [e.name for e in node.out_edges]
-            s.append("    Out Edges: {:}".format(edges))
+            # s.append("  Node: {}".format(node.name))
+            # s.append("    Explored: {}".format(node.explored))
+            # s.append("    Leader: {}".format(node.leader_node))
+            # s.append("    Finishing Time: {}".format(node.finishing_time))
 
-            edges = [e.name for e in node.in_edges]
-            s.append("    In Edges:  {:}".format(edges))
+            # edges = [e.name for e in node.out_edges]
+            # s.append("    Out Edges: {:}".format(edges))
+
+            # edges = [e.name for e in node.in_edges]
+            # s.append("    In Edges:  {:}".format(edges))
 
             st = "\n".join(s)
 
         return st
+
 
     def print_sccs(self, limit=5):
         """Print information about the top n SCC groups"""
@@ -246,7 +273,8 @@ class DirectedGraph(object):
                           reverse=True)
 
             for scc in sccs[:limit]:
-                s.append("  SCC {}: size {}: {:}".format(max(scc), len(scc), list(scc)[:10]))
+                s.append("  SCC {}: size {}: {:}".format(max(scc), len(scc),
+                                                         list(scc)[:10]))
 
             st = "\n".join(s)
 
@@ -260,7 +288,7 @@ class DirectedGraph(object):
         self.nodes[label] = DiNode(label)
 
 
-    def add_di_edge(self, tail, head):
+    def add_edge(self, tail, head, length=None):
 
         if tail not in self.nodes:
             self.add_node(tail)
@@ -268,9 +296,9 @@ class DirectedGraph(object):
         if head not in self.nodes:
             self.add_node(head)
 
-        self.nodes[tail].add_edge(head, "out")
+        self.nodes[tail].add_edge(head, "out", length)
 
-        self.nodes[head].add_edge(tail, "in")
+        self.nodes[head].add_edge(tail, "in", length)
 
 
     def clear_explored(self):
@@ -473,6 +501,84 @@ class DirectedGraph(object):
                 self.depth_first_search(node.name)
 
 
+    def dijkstras_shortest_path(self, start, finish):
+        """Use Dijkstra's Shortest Path algorithm to find the shortest
+        pass in a directed graph.
+
+        Returns a list of nodes and the total distance
+        """
+
+        path = [(start, start)]
+        distances = {start: 0}
+        explored_nodes = [self.nodes[start]]
+        explored_names = [start]
+
+        found = False
+
+        while finish not in explored_names:
+
+            # Clear the minimum distance
+            min_distance = None
+
+            # Loop through each of the outgoing edges that are on the
+            #  frontier.
+            for node in explored_nodes:
+                for edge in node.out_edges:
+
+                    # Have we found an edge on the frontier?
+                    if edge.head not in explored_names:
+
+                        # Calculate the total distance if we chose this
+                        #  edge
+                        this_distance = distances[node.name] + edge.length
+
+                        if min_distance is not None:
+
+                            # Is this a better edge to choose?
+                            if this_distance < min_distance:
+                                min_distance = this_distance
+                                previous_node = node
+                                next_node = self.nodes[edge.head]
+                                next_edge = edge
+
+                        else:
+
+                            min_distance = this_distance
+                            previous_node = node
+                            next_node = self.nodes[edge.head]
+                            next_edge = edge
+
+            # Now that we've explored all the edges of all of the nodes
+            #  on the frontier, add the minimum distance node to the
+            #  explored set.
+            explored_nodes.append(next_node)
+            explored_names.append(next_node.name)
+            distances[next_node.name] = min_distance
+
+            # Update the shortest path
+            path.append((next_node.name, previous_node.name))
+
+        # Now, work backwards from the finish in the path list to get
+        #  the actual shortest path using the parent information
+        shortest_path = []
+        path_parent = None
+
+        while len(path) > 0:
+
+            node_name, parent_name = path.pop()
+
+            if path_parent is None or node_name == path_parent:
+                shortest_path.append(node_name)
+                path_parent = parent_name
+
+        # Now shortest_path should be populated with only the node names
+        #  that were actually in the shortest path, but they are in
+        #  reverse order.
+        shortest_path.reverse()
+
+        return shortest_path, distances[finish]
+
+
     def save_graph(self, filename):
         """Save the graph in a DOT file"""
 
@@ -519,68 +625,39 @@ class DirectedGraph(object):
 
 if __name__ == '__main__':
 
-    # a = Graph()
-
-    # #a["Hello"] = "Goodbye"
-    # a.add_node("Hello")
-    # a.add_node(1, [2,3,4])
-
-    # print(a)
-
-
-    # b = DirectedGraph()
-
-    # b.add_node(1)
-    # b.add_node(2)
-    # b.add_di_edge(1, 2)
-    # b.add_di_edge(2, 1)
-    # b.add_di_edge(1, 3)
-
-    # b.save_graph("digraphtest")
-
+    # A Simple Directed graph with various edge lengths
     d = DirectedGraph()
-    d.add_di_edge(1, 4)
-    d.add_di_edge(4, 7)
-    d.add_di_edge(7, 1)
-    # d.add_di_edge(9, 7)
-    d.add_di_edge(9, 0)
-    d.add_di_edge(0, 7)
-    d.add_di_edge(9, 3)
-    d.add_di_edge(3, 6)
-    d.add_di_edge(6, 9)
-    d.add_di_edge(8, 6)
-    d.add_di_edge(8, 5)
-    d.add_di_edge(5, 2)
-    d.add_di_edge(2, 8)
 
-    # ipdb.set_trace()
-    # explored = d.depth_first_search(9, reverse=True)
-    # d.depth_first_search(9)
-    d.strong_connections()
+    d.add_edge(1, 2, length=1)
+    d.add_edge(1, 3, length=4)
+    d.add_edge(2, 3, length=2)
+    d.add_edge(2, 4, length=6)
+    d.add_edge(3, 4, length=3)
 
     print(d)
-    # print(explored)
+
+    path, distance = d.dijkstras_shortest_path(1, 4)
+
+    print("Distance: {}, Path: {}".format(distance, path))
 
     d.save_graph("digraphtest")
 
-    # New tree graph
-    # d = DirectedGraph()
-    # d.add_di_edge(1, 2)
-    # d.add_di_edge(1, 3)
-    # d.add_di_edge(2, 4)
-    # d.add_di_edge(2, 5)
-    # d.add_di_edge(3, 6)
-    # d.add_di_edge(3, 7)
-    # d.add_di_edge(4, 8)
-    # d.add_di_edge(4, 9)
-    # d.add_di_edge(5, 10)
-    # d.add_di_edge(5, 11)
-    # d.add_di_edge(0, 3)
-    # d.add_di_edge(9, 1)
 
-    # explored = d.depth_first_search(2)
+    graph = DirectedGraph()
+    graph.add_edge(0, 1, length=1)
+    graph.add_edge(1, 2, length=1)
+    graph.add_edge(2, 3, length=1)
+    graph.add_edge(3, 4, length=1)
+    graph.add_edge(4, 5, length=1)
+    graph.add_edge(5, 6, length=1)
+    graph.add_edge(6, 7, length=1)
+    graph.add_edge(7, 8, length=1)
+    graph.add_edge(8, 9, length=1)
+    graph.add_edge(0, 9, length=8)
 
-    # print(d)
-    # print(explored)
+    path, distance = graph.dijkstras_shortest_path(0, 9)
 
-    # d.save_graph("digraphtest2")
+    print("Distance: {}".format(distance))
+    print("Path: {}".format(path))
+
+

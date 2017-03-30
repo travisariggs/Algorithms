@@ -8,17 +8,10 @@
 
 """
 
-# import sys
-# import resource
-
 from graphs import DirectedGraph
 
 
 if __name__ == '__main__':
-
-    # sys.setrecursionlimit(10 ** 6)
-    # resource.setrlimit(resource.RLIMIT_STACK, (8387608, 67103768))
-    # print(sys.getrecursionlimit())
 
     digraph = DirectedGraph()
 
@@ -29,13 +22,12 @@ if __name__ == '__main__':
 
             head, tail = line.strip().split(" ")
 
-            digraph.add_di_edge(int(head), int(tail))
+            digraph.add_edge(int(head), int(tail))
 
     print("Loaded graph from file")
     print(len(list(digraph.nodes.keys())))
     print("Beginning strong connection analysis...")
 
-    # digraph.save_graph("data/smalldigraph.dot")
     digraph.strong_connections()
 
     # print(digraph)
