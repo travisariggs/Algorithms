@@ -515,15 +515,7 @@ class DirectedGraph(object):
 
         found = False
 
-        while not found:
-
-            #DEBUG
-            # ipdb.set_trace()
-
-            # Did we find the goal node?
-            if finish in explored_names:
-                found = True
-                break
+        while finish not in explored_names:
 
             # Clear the minimum distance
             min_distance = None
