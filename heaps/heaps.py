@@ -13,10 +13,8 @@ import ipdb
 
 class Heap(object):
 
-
     def __init__(self):
         self._heap = []
-
 
     def __repr__(self):
 
@@ -41,7 +39,6 @@ class Heap(object):
             level += 1
 
         return "\n".join(s)
-
 
     def add_element(self, element):
 
@@ -74,7 +71,6 @@ class Heap(object):
                 # We have reached the root of the heap tree
                 break
 
-
     def extract_min(self):
 
         # Is the heap empty?
@@ -100,7 +96,7 @@ class Heap(object):
         while True:
 
             # Think of the children!! ;)
-            left_child_index  = self._get_left_child_index(element_index)
+            left_child_index = self._get_left_child_index(element_index)
             right_child_index = self._get_right_child_index(element_index)
 
             if left_child_index is not None:
@@ -115,7 +111,8 @@ class Heap(object):
                 break
 
             # Does this element have 2 children?
-            elif left_child_index is not None and right_child_index is not None:
+            elif (left_child_index is not None
+                  and right_child_index is not None):
 
                 # Which child is less?
                 if left_child < right_child:
@@ -153,7 +150,6 @@ class Heap(object):
 
         return the_min
 
-
     def _get_parent_index(self, element_index):
 
         if element_index == 0:
@@ -164,7 +160,6 @@ class Heap(object):
         else:
             return int((element_index - 1)/2)
 
-
     def _get_left_child_index(self, element_index):
 
         index = int(2*element_index + 1)
@@ -173,7 +168,6 @@ class Heap(object):
             return None
         else:
             return index
-
 
     def _get_right_child_index(self, element_index):
 
@@ -184,13 +178,11 @@ class Heap(object):
         else:
             return index
 
-
     def _bubble_up(self, element_index):
         pass
 
 
 if __name__ == "__main__":
-
 
     heap = Heap()
     heap.add_element(10)
@@ -210,4 +202,3 @@ if __name__ == "__main__":
     min8 = heap.extract_min()
     min9 = heap.extract_min()
     min9 = heap.extract_min()
-
