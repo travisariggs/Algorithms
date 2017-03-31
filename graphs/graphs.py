@@ -8,7 +8,6 @@
 
 """
 
-import ipdb
 import copy
 import random
 import graphviz
@@ -16,20 +15,16 @@ import graphviz
 
 class Graph(dict):
 
-
     def __init__(self, *args):
 
         dict.__init__(self, args)
-
 
     def add_node(self, node_name, edges=[]):
         """Add a node to the graph and optionally a set of edges"""
         self[node_name] = edges
 
-
     def num_of_nodes(self):
         return len(self.keys())
-
 
     def save_graph(self, filename):
         """Save the graph in a DOT file"""
@@ -59,7 +54,6 @@ class Graph(dict):
         # Render the graph into an image
         graphviz.render('dot', 'png', filename)
 
-
     def random_min_cut(self):
         """Use the randomized contraction algorithm to attempt
         to find the minimum cut of the graph
@@ -71,7 +65,6 @@ class Graph(dict):
 
         # Copy the current graph before modifying it
         graph = copy.deepcopy(self)
-
 
         while graph.num_of_nodes() > 2:
 
@@ -129,7 +122,6 @@ class DiEdge(object):
         if length is not None:
             self.length = length
 
-
     def __repr__(self):
 
         s = []
@@ -138,16 +130,14 @@ class DiEdge(object):
                         self.name,
                         self.tail,
                         self.head,
-                        self.length)
-                    )
+                        self.length))
 
         else:
 
             s.append("     DiEdge: {}, Tail: {}, Head: {}".format(
                         self.name,
                         self.tail,
-                        self.head)
-                    )
+                        self.head))
 
         st = "\n".join(s)
 
@@ -164,7 +154,6 @@ class DiNode(object):
         self.explored = False
         self.leader_node = None
         self.finishing_time = None
-
 
     def __repr__(self):
 
@@ -193,7 +182,6 @@ class DiNode(object):
 
         return st
 
-
     def add_edge(self, node_name, kind, length=None):
 
         if kind == "out":
@@ -218,7 +206,6 @@ class DirectedGraph(object):
         # Private attributes
         self._finishing_time = 0
         self._leader_index = None
-
 
     def __repr__(self):
 
@@ -256,7 +243,6 @@ class DirectedGraph(object):
 
         return st
 
-
     def print_sccs(self, limit=5):
         """Print information about the top n SCC groups"""
 
@@ -282,11 +268,9 @@ class DirectedGraph(object):
 
         return st
 
-
     def add_node(self, label):
 
         self.nodes[label] = DiNode(label)
-
 
     def add_edge(self, tail, head, length=None):
 
@@ -300,13 +284,11 @@ class DirectedGraph(object):
 
         self.nodes[head].add_edge(tail, "in", length)
 
-
     def clear_explored(self):
         """Set all nodes to an 'unexplored' state"""
 
         for node in self.nodes.values():
             node.explored = False
-
 
     def clear_finishing_times(self):
         """Clear finishing times of all nodes"""
@@ -314,13 +296,11 @@ class DirectedGraph(object):
         for node in self.nodes.values():
             node.finishing_time = None
 
-
     def clear_leaders(self):
         """Clear the leader node labels from all nodes"""
 
         for node in self.nodes.values():
             node.leader_node = None
-
 
     def all_explored(self, node, reverse=False):
         """Have all of this nodes edges been explored?"""
@@ -332,10 +312,9 @@ class DirectedGraph(object):
 
         for edge in edges:
             if not self.nodes[edge.name].explored:
-               return False
+                return False
 
         return True
-
 
     def depth_first_search(self, start_node=None, reverse=False):
         """Perform a depth first search of the graph using an iterative
@@ -420,7 +399,6 @@ class DirectedGraph(object):
 
         return explored
 
-
     def depth_first_search_recursive(self, start_node=None, reverse=False):
         """Perform a depth first search of the graph recursively"""
 
@@ -467,7 +445,6 @@ class DirectedGraph(object):
         # Set the finishing time for the starting node
         node.finishing_time = self._finishing_time
 
-
     def strong_connections(self):
         """Search the graph for strongly connected components
 
@@ -487,7 +464,6 @@ class DirectedGraph(object):
             if not node.explored:
                 self.depth_first_search(node_name, reverse=True)
 
-
         # Clear the explored states for a new search
         self.clear_explored()
 
@@ -500,7 +476,6 @@ class DirectedGraph(object):
                 self._leader_index = node.name
                 self.depth_first_search(node.name)
 
-
     def dijkstras_shortest_path(self, start, finish):
         """Use Dijkstra's Shortest Path algorithm to find the shortest
         pass in a directed graph.
@@ -512,8 +487,6 @@ class DirectedGraph(object):
         distances = {start: 0}
         explored_nodes = [self.nodes[start]]
         explored_names = [start]
-
-        found = False
 
         while finish not in explored_names:
 
@@ -539,14 +512,12 @@ class DirectedGraph(object):
                                 min_distance = this_distance
                                 previous_node = node
                                 next_node = self.nodes[edge.head]
-                                next_edge = edge
 
                         else:
 
                             min_distance = this_distance
                             previous_node = node
                             next_node = self.nodes[edge.head]
-                            next_edge = edge
 
             # Now that we've explored all the edges of all of the nodes
             #  on the frontier, add the minimum distance node to the
@@ -578,13 +549,12 @@ class DirectedGraph(object):
 
         return shortest_path, distances[finish]
 
-
     def save_graph(self, filename):
         """Save the graph in a DOT file"""
 
-        colors = [ "cornflowerblue", "crimson", "chartreuse2",
-                   "darkorange2", "darkorchid3", "goldenrod1",
-                   "darkseagreen3", "cyan3", "deeppink3" ]
+        colors = ["cornflowerblue", "crimson", "chartreuse2",
+                  "darkorange2", "darkorchid3", "goldenrod1",
+                  "darkseagreen3", "cyan3", "deeppink3"]
 
         with open(filename, 'w') as f:
 
@@ -600,27 +570,27 @@ class DirectedGraph(object):
                     # Choose a color from the list
                     c = colors[int(node.leader_node) % len(colors)]
 
-                    print("  " + str(node.name) + \
+                    print("  " + str(node.name) +
                           " [color={},style=filled];".format(c),
                           file=f)
 
                 elif node.explored:
 
                     # Visually mark the node as explored
-                    print("  " + str(node.name) + " [color=chartreuse3" + \
+                    print("  " + str(node.name) + " [color=chartreuse3" +
                           ",style=filled];",
                           file=f)
 
                 for edge in node.out_edges:
 
-                    print("  " + str(node.name) + " -> " + str(edge.name) + ";",
+                    print("  " + str(node.name) + " -> " +
+                          str(edge.name) + ";",
                           file=f)
 
             print("}", file=f)
 
         # Render the graph into an image
         graphviz.render('dot', 'png', filename)
-
 
 
 if __name__ == '__main__':
@@ -642,7 +612,6 @@ if __name__ == '__main__':
 
     d.save_graph("digraphtest")
 
-
     graph = DirectedGraph()
     graph.add_edge(0, 1, length=1)
     graph.add_edge(1, 2, length=1)
@@ -659,5 +628,3 @@ if __name__ == '__main__':
 
     print("Distance: {}".format(distance))
     print("Path: {}".format(path))
-
-
